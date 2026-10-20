@@ -1,6 +1,7 @@
 import React from 'react';
 import type { GroupCommand } from '@aiostreams/core';
 import type { PlayerController, PlayerState } from '../playback/controller';
+import { settings } from '../settings';
 import { useLatest } from '../use-latest';
 import { party, positionAt, useParty, type Timeline } from './party';
 
@@ -19,8 +20,6 @@ const TICK_MS = 250;
 const RESUME_MS = 5_000;
 /** Positions this close count as there. */
 const ACCURATE_MS = 250;
-/** Close enough to play at normal speed. */
-const IN_STEP_MS = 30;
 const MAX_NUDGE = 0.05;
 /** The drift a full nudge takes up in about a second. */
 const NUDGE_SPAN_MS = 1_000;
@@ -28,6 +27,8 @@ const NUDGE_SPAN_MS = 1_000;
 const SEEK_DRIFT_MS = 400;
 /** A player that plays at one speed seeks sooner. */
 const SEEK_DRIFT_FIXED_MS = 1_000;
+/** Fallback value for pause re-sync, used when rate changes are disabled */
+const PAUSE_REACHED_MS = 30;
 /** Behind by less than this at a pause, a member plays on to it. */
 const CATCH_UP_MS = 3_000;
 const DEFAULT_LEAD_MS = 250;
@@ -246,7 +247,11 @@ class Follower {
       party.resumeAt(this.position());
     }
     if (this.pauseAt !== null) {
-      if (this.position() >= this.pauseAt - IN_STEP_MS)
+      if (
+        this.position() >=
+        this.pauseAt -
+          Math.max(settings.party.deadZone.read(), PAUSE_REACHED_MS)
+      )
         this.pauseOn(this.pauseAt);
       return;
     }
@@ -258,18 +263,21 @@ class Follower {
     const expected = this.expected(timeline);
     const drift = this.position() - expected;
     party.offset(-drift);
-    const limit = this.speed ? SEEK_DRIFT_MS : SEEK_DRIFT_FIXED_MS;
+    const deadZone = settings.party.deadZone.read();
+    // A tolerance of 0 leaves the speed alone and catches up by seeking when treshold for that has been reached.
+    const nudging = !!this.speed && deadZone > 0;
+    const limit = nudging ? SEEK_DRIFT_MS : SEEK_DRIFT_FIXED_MS;
     if (Math.abs(drift) > limit) {
       if (now - this.lastSeekAt > SEEK_COOLDOWN_MS)
         this.seekTo(expected + this.seekLead);
       return;
     }
-    if (!this.speed) return;
+    if (!nudging) return this.setRate(1);
     const nudge = Math.max(
       -MAX_NUDGE,
       Math.min(MAX_NUDGE, drift / NUDGE_SPAN_MS)
     );
-    const rate = Math.abs(drift) < IN_STEP_MS ? 1 : 1 - nudge;
+    const rate = Math.abs(drift) < deadZone ? 1 : 1 - nudge;
     if (rate === 1 || Math.abs(rate - this.rate) >= 0.01)
       this.setRate(Math.round(rate * 1000) / 1000);
   }

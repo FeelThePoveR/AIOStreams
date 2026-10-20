@@ -143,6 +143,10 @@ msgid "{movies} and {episodes} watched"
 msgstr ""
 
 #: src/pages/settings/playback.tsx
+msgid "{ms} ms"
+msgstr ""
+
+#: src/pages/settings/playback.tsx
 msgid "{n, plural, one {After # episode} other {After # episodes}}"
 msgstr ""
 
@@ -1700,6 +1704,10 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
+#: src/pages/settings/playback.tsx
+msgid "How far from the group you can drift before playback speeds up or slows down to catch up. Off never changes the speed and only seeks."
+msgstr ""
+
 #: src/pages/settings/subtitles.tsx
 msgid "How far subtitles sit above their usual place near the bottom."
 msgstr ""
@@ -2419,6 +2427,10 @@ msgstr ""
 
 #: src/pages/settings/theme.tsx
 msgid "Off for this visit, since the address ends in <0>?safe</0>. Fix or clear it here, then open the app without it."
+msgstr ""
+
+#: src/pages/settings/playback.tsx
+msgid "Off, only seek"
 msgstr ""
 
 #: src/pages/settings/cache.tsx
@@ -3848,6 +3860,10 @@ msgstr ""
 
 #: src/components/player/options.tsx
 msgid "Sync to a line…"
+msgstr ""
+
+#: src/pages/settings/playback.tsx
+msgid "Sync tolerance"
 msgstr ""
 
 #: src/pages/settings/interface.tsx

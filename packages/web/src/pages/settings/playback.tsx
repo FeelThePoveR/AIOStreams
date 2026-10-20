@@ -24,6 +24,7 @@ import {
   useSetting,
   NEXT_COUNTDOWNS,
   NEXT_LEADS,
+  PARTY_DEAD_ZONES,
   STILL_WATCHING_AFTER,
   HOLD_RATES,
   SEEK_STEPS,
@@ -114,6 +115,7 @@ export function PlaybackSection() {
   const [partyReactions, setPartyReactions] = useSetting(
     settings.party.reactions
   );
+  const [partyDeadZone, setPartyDeadZone] = useSetting(settings.party.deadZone);
   const autoplay = prefs.EnableNextEpisodeAutoPlay !== false;
   const [hardwareDecoding, setHardwareDecoding] = useSetting(
     settings.video.hardwareDecoding
@@ -294,6 +296,16 @@ export function PlaybackSection() {
             label={t`Show reactions over the video`}
             value={partyReactions}
             onValueChange={setPartyReactions}
+          />
+          <Select
+            label={t`Sync tolerance`}
+            help={t`How far from the group you can drift before playback speeds up or slows down to catch up. Off never changes the speed and only seeks.`}
+            options={PARTY_DEAD_ZONES.map((ms) => ({
+              value: String(ms),
+              label: ms === 0 ? t`Off, only seek` : t`${ms} ms`,
+            }))}
+            value={String(partyDeadZone)}
+            onValueChange={(v) => setPartyDeadZone(Number(v))}
           />
         </SettingsCard>
       )}

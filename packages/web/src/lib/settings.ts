@@ -526,6 +526,8 @@ export type DiscordEvent = (typeof DISCORD_EVENTS)[number];
 export const NEXT_PROMPTS = ['credits', 'end', 'off'] as const;
 export type NextPrompt = (typeof NEXT_PROMPTS)[number];
 export const NEXT_LEADS = [15, 30, 45, 60, 90, 120] as const;
+/** Milliseconds of drift a watch party member ignores, before speeding up or slowing down to catch up; 0 never changes the speed, and catches up by seeking. */
+export const PARTY_DEAD_ZONES = [0, 30, 50, 100, 150, 250, 300] as const;
 export const NEXT_COUNTDOWNS = [5, 10, 15, 30] as const;
 /** Episodes in a row with no input before asking; 0 never asks. */
 export const STILL_WATCHING_AFTER = [0, 2, 3, 4, 5, 8] as const;
@@ -771,6 +773,7 @@ export const settings = {
     /** What other members send shows over the video. */
     messages: syncedFlag('partyMessages', true),
     reactions: syncedFlag('partyReactions', true),
+    deadZone: syncedChoice<number>('partyDeadZone', PARTY_DEAD_ZONES, 30),
   },
   controls: {
     seekStep: device<number>(

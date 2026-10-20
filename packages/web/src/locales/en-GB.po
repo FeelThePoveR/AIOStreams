@@ -144,6 +144,10 @@ msgid "{movies} and {episodes} watched"
 msgstr "{movies} and {episodes} watched"
 
 #: src/pages/settings/playback.tsx
+msgid "{ms} ms"
+msgstr "{ms} ms"
+
+#: src/pages/settings/playback.tsx
 msgid "{n, plural, one {After # episode} other {After # episodes}}"
 msgstr "{n, plural, one {After # episode} other {After # episodes}}"
 
@@ -1701,6 +1705,10 @@ msgstr "Home and libraries"
 msgid "Host"
 msgstr "Host"
 
+#: src/pages/settings/playback.tsx
+msgid "How far from the group you can drift before playback speeds up or slows down to catch up. Off never changes the speed and only seeks."
+msgstr "How far from the group you can drift before playback speeds up or slows down to catch up. Off never changes the speed and only seeks."
+
 #: src/pages/settings/subtitles.tsx
 msgid "How far subtitles sit above their usual place near the bottom."
 msgstr "How far subtitles sit above their usual place near the bottom."
@@ -2421,6 +2429,10 @@ msgstr "Off"
 #: src/pages/settings/theme.tsx
 msgid "Off for this visit, since the address ends in <0>?safe</0>. Fix or clear it here, then open the app without it."
 msgstr "Off for this visit, since the address ends in <0>?safe</0>. Fix or clear it here, then open the app without it."
+
+#: src/pages/settings/playback.tsx
+msgid "Off, only seek"
+msgstr "Off, only seek"
 
 #: src/pages/settings/cache.tsx
 msgid "Older ones wait for the server instead. Without a connection, everything saved is shown."
@@ -3850,6 +3862,10 @@ msgstr "Sync to a line"
 #: src/components/player/options.tsx
 msgid "Sync to a line…"
 msgstr "Sync to a line…"
+
+#: src/pages/settings/playback.tsx
+msgid "Sync tolerance"
+msgstr "Sync tolerance"
 
 #: src/pages/settings/interface.tsx
 msgid "System ({system})"
